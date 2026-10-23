@@ -1,98 +1,38 @@
 # CTF Lab
 
-Personal cybersecurity and CTF practice environment.
+Personal repository for cybersecurity research, CTF challenges, and hands-on security practice.
 
 ## Environment
 
-- Host OS: Windows 11
-- WSL2: Ubuntu 24.04
-- Virtualization: VirtualBox
-- Attacker VM: Kali Linux 2026.2
-- Target VM: Ubuntu Server 24.04
+- **Host:** Windows 11
+- **Development:** WSL2 (Ubuntu 24.04)
+- **Virtualization:** VirtualBox
+- **Attacker VM:** Kali Linux
+- **Target VM:** Ubuntu Server 24.04
 
 ## Network
 
-The lab uses two separate private networks and supports two operating modes.
+The lab uses an internal VirtualBox network for security testing.
 
-### Network Configuration
+- **Normal Mode:** NAT and host-only networking enabled when needed
+- **Isolated Mode:** Internal network only, without external network access
 
-| Network | Type | Purpose |
-|---|---|---|
-| `ctf-lab` | Internal Network | Communication between attacker and target VMs |
-| Host-only Network | Host-only Adapter | SSH administration from Windows |
-| NAT | NAT | Internet access for Kali Linux when required |
-
-### IP Addresses
-
-| Machine | Interface | IP Address |
-|---|---|---|
-| Kali Linux | Internal | `192.168.56.10/24` |
-| Ubuntu Server | Internal | `192.168.56.20/24` |
-| Ubuntu Server | Host-only | `192.168.57.21/24` |
-| Windows Host | Host-only | `192.168.57.1/24` |
-
-### Normal Mode
-
-Used for development, software installation, and general CTF practice.
-
-- Kali Linux: NAT + Internal Network
-- Ubuntu Server: Internal Network + Host-only Network
-- Windows can administer Ubuntu Server over SSH.
-- Kali Linux can access the internet through NAT.
-
-### Isolated Mode
-
-Used for testing intentionally vulnerable applications, including PHP2Shell.
-
-- Kali Linux: Internal Network only
-- Ubuntu Server: Internal Network only
-- Kali NAT: Disabled
-- Ubuntu Server Host-only: Disabled
-- Shared folders, shared clipboard, and drag-and-drop: Disabled
-- No default gateway configured on the isolated lab interfaces
-
-In this mode, the two VMs communicate over `ctf-lab` without ordinary network connectivity to Windows or the internet.
-
-### Network Management
-
-- Kali Linux: NetworkManager (`nmcli`)
-- Ubuntu Server: Netplan
-- Kali's `ctf-lab` connection is bound to the internal adapter's MAC address to reduce interface-renaming issues when NAT is toggled.
+Intentionally vulnerable applications are tested in isolated environments.
 
 ## Tools
 
-### Windows
+| Environment | Tools |
+|---|---|
+| Windows | Ghidra, Wireshark, Burp Suite |
+| WSL2 Ubuntu | Python, pwntools, SageMath, Foundry |
+| Kali Linux | Nmap, ffuf, SQLmap, Metasploit |
+| Ubuntu Server | Docker, Nginx, OpenSSH, Apache/PHP |
 
-- Ghidra
-- Wireshark
-- Burp Suite
-
-### WSL2 Ubuntu
-
-- Python
-- pwntools
-- SageMath
-- Foundry (forge, cast, anvil, chisel)
-
-### Kali Linux
-
-- Nmap
-- ffuf
-- SQLmap
-- Metasploit
-- Burp Suite
-
-### Ubuntu Server
-
-- Docker
-- Nginx
-- OpenSSH
-- Apache / PHP (isolated vulnerability labs)
-
-## Lab Applications
+## Practice Labs
 
 - OWASP Juice Shop
 - PHP2Shell
+- Solidity / Foundry security experiments
 
 ## CTF Categories
 
@@ -108,17 +48,4 @@ In this mode, the two VMs communicate over `ctf-lab` without ordinary network co
 
 ## Security
 
-All intentionally vulnerable services are intended to run only in authorized local lab environments.
-
-Security precautions include:
-
-- Disabling external and host-only network adapters during high-risk experiments
-- Disabling host–guest file sharing and clipboard integration
-- Binding vulnerable services to designated lab interfaces
-- Taking VirtualBox snapshots before experiments
-- Reverting target VMs to trusted snapshots after experiments
-- Keeping real credentials and production data outside the lab
-
-Network isolation reduces exposure but does not provide an absolute security guarantee.
-
-No real credentials, private keys, or production systems are intentionally included in this repository.
+All vulnerability testing is performed in authorized lab or CTF environments. Credentials and private keys are excluded from this repository.
